@@ -1,0 +1,79 @@
+<!--
+How to use and api:
+	https://www.geeksforgeeks.org/working-with-apis-in-javascript/
+Gw2 Wiki api (v2):
+	https://api.guildwars2.com/v2
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		body{
+			background-image: url("https://images2.alphacoders.com/463/463542.jpg");
+			background-size: cover;
+			}
+		dir{
+			position: relative;
+			text-align: center;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+		let nuss = Math.floor(Math.random()*100000+60);
+		let api= "https://api.guildwars2.com/v2/items?ids="+nuss+"&lang=en";
+		async function Right(){
+			const response_check = await fetch(api);
+			const data_check = await response_check.json();
+			const user_check = data_check[0];
+			console.log(" Number that was randomly pick "+ nuss +" was not found getting a new number");
+			if( user_check == undefined){
+				nuss = Math.floor(Math.random()*40000+60);
+				api= "https://api.guildwars2.com/v2/items?ids="+nuss+"&lang=en";
+				console.log(nuss);
+				getUser();
+			};
+		};
+		
+		async function getUser(){
+			Right();
+			const response = await fetch(api);
+			const data = await response.json();
+      		const user = data[0];
+      		let image = user.icon;
+      		let name = user.name;
+      		let type = user.type;
+      		let value = user.rarity;
+      		console.log(image);
+      		let img = document.createElement("img");
+      		let img_div = document.getElementById("user-img");
+      		let x = document.getElementById("s");
+      		x.append(name);
+      		let c = document.getElementById("t");
+      		c.append(type);
+      		let v = document.getElementById("r");
+      		v.append(value);
+      		img.src = image;
+      		img_div.append(img);
+		}
+		getUser();
+
+	</script>
+	<style type="text/css">
+		
+	</style>
+
+</head>
+<body>
+	<dir>
+	<p id="s"> Iteam name: </p>
+	<p id="t"> type: </p>
+	<p id="r"> rarity: </p>
+	<div id="user-img"></div>
+	</dir>
+</body>
+</html>
